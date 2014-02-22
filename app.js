@@ -5,6 +5,8 @@ var express = require('express'),
 
 var app = express();
 
+var routes = require('./routes');
+
 app.configure(function () {
   app.set('port', process.env.PORT || 3000);
   app.use(express.favicon());
@@ -19,6 +21,16 @@ app.configure('development', function () {
   app.use(express.errorHandler());
 });
 
-http.createServer(app).listen(app.get('port'), function () {
+app.get('/', function (req,res) {
+  res.sendfile('public/index.html');
+});
+
+var server = http.createServer(app).listen(app.get('port'), function () {
   console.log('Express server listening on port ' + app.get('port'));
+});
+
+var io = require('socket.io').listen(server);
+
+io.sockets.on('connection', function (client) {
+  console.log('client connected: '+client);
 });
