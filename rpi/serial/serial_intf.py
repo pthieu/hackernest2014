@@ -24,8 +24,9 @@ if numArguments == 1:
 	if (action!="record"):
 		sys.exit(1)
 	else:
-		port.write("<1>\n");
-		command = readline(port)
+		numBytesWritten += port.write("<1>\n");
+		recvStr = readline(port)
+		print (recvStr)
 	
 elif numArguments == 2:
 	if (action!="send"):
@@ -33,7 +34,7 @@ elif numArguments == 2:
 	else:
 		command = str(sys.argv[2])
 		sendStr	= "<2><%s>\n" % command
-		port.write(sendStr)
+		numBytesWritten += port.write(sendStr)
 
-else
+else:
 	sys.exit(1)
