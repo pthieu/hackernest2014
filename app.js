@@ -6,6 +6,7 @@ var exec = require('child_process').execFile,
     child;
 var execCLI = require('child_process').exec;
 var fs = require('fs');
+var endOfLine = require('os').EOL;
 
 child = execCLI('touch rpi/config/ir_cmd.config', function (err, stdout, stderr) {
     console.log('stdout: ' + stdout);
@@ -66,7 +67,7 @@ io.sockets.on('connection', function (client) {
       if (err) {
         return console.error(err);
       }
-      var arr = data.split('\r\n');
+      var arr = data.split(endOfLine);
       for(var i=0; i<arr.length;i++){
         var macro = arr[i].split('::');
         if(macro.length>1){
