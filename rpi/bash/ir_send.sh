@@ -17,11 +17,13 @@ function chk_arg
     fi
 }
 
+runpath="`pwd`/rpi"
+
 chk_arg $1
 chk_arg $2
-FILE="../config/$1"
+FILE="$runpath/config/$1"
 NAME=$2
-COM_PROC="../serial/serial_intf.py send"
+COM_PROC="$runpath/serial/serial_intf.py send"
 
 # check if file exist
 if [ -e $FILE ];

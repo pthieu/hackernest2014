@@ -1,4 +1,7 @@
 *.log
+*.swp
+
+rpi/config/ir_cmd.config
 
 node_modules/
 public/bower_components/
