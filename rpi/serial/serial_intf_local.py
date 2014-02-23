@@ -11,8 +11,8 @@ def readline(port):
         if ch=='\r' or ch=='':
             return rv
 
-port = serial.Serial("/dev/ttyACM0", baudrate=9600, timeout=3.0)
-#port = serial.Serial("/dev/tty.usbmodemfa131", baudrate=9600, timeout=3.0)
+#port = serial.Serial("/dev/ttyAMA0", baudrate=9600, timeout=3.0)
+port = serial.Serial("/dev/tty.usbmodemfa131", baudrate=9600, timeout=3.0)
 
 numArguments = len(sys.argv)
 
@@ -32,9 +32,9 @@ if numArguments == 2:
 		sys.exit(1)
 	else:
 		numBytesWritten += port.write("<1>");
-		#print "Number of bytes written: '%d'" % numBytesWritten
+		print "Number of bytes written: '%d'" % numBytesWritten
 		recvStr = readline(port)
-		print (recvStr)
+		print "Received: '%s'" % recvStr
 
 # send a string of data to arduino	
 elif numArguments == 3:
@@ -44,9 +44,9 @@ elif numArguments == 3:
 	else:
 		command = str(sys.argv[2])
 		sendStr	= "<2><%s>" % command
-		#print "Sending command '%s'\n" % sendStr
+		print "Sending command '%s'\n" % sendStr
 		numBytesWritten += port.write(sendStr)
-		#print "Number of bytes written: '%d'" % numBytesWritten
+		print "Number of bytes written: '%d'" % numBytesWritten
 
 else:
 	sys.exit(1)
