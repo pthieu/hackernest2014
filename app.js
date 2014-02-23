@@ -86,7 +86,7 @@ io.sockets.on('connection', function (client) {
         entries += " "+data.data[i][2];
       }
     }
-    entries += "::0\r\n";
+    entries += "::0"+endOfLine;
     console.log('Appending: '+entries);
     fs.appendFile('rpi/config/ir_cmd.config', entries, function (err) {
       if (err) {
@@ -95,7 +95,7 @@ io.sockets.on('connection', function (client) {
     });
   });
   client.on('runMacro', function (data) {
-    var name = '"'+data+'"';
+    var name = data;
     var cmd = 'rpi/bash/ir_hub.sh send ' + name;
     console.log('Executing Command: '+cmd);
     child = exec('rpi/bash/ir_hub.sh', ['send', name],// command line argument directly in string
