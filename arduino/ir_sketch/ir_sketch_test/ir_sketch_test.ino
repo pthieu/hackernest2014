@@ -18,6 +18,15 @@ decode_results results;
 //instantiate a IRrecv object to receive signals on pin 11
 IRrecv irrecv(11);
 
+unsigned int inDataR[67] = {8900,4350,650,500,600,500,650,400,650,450,800,300,700,450,650,450,600,500,650,1600,600,1600,550,1650,550,1650,650,1600,600,1550,650,1600,600,1600,550,550,600,500,650,450,700,1550,600,500,600,500,650,450,650,450,550,1650,600,1550,750,1500,650,500,600,1650,550,1600,600,1650,650,1550,750};
+unsigned int inDataG[67] = {8900,4400,650,450,650,450,600,500,600,500,600,500,650,500,600,450,600,500,650,1550,750,1450,700,1550,550,1600,700,1550,650,1550,650,1550,600,1600,700,1550,550,550,650,450,550,1650,600,500,600,550,600,450,700,400,650,500,650,1500,700,1550,650,450,600,1600,650,1550,700,1500,700,1550,650};
+unsigned int inDataB[67] = {9000,4300,650,450,550,550,600,450,650,500,600,500,600,500,550,550,650,400,700,1500,750,1500,650,1550,700,1550,550,1650,550,1550,700,1550,750,1500,600,500,650,1550,650,450,650,1550,650,450,600,550,550,500,650,500,550,1650,600,500,650,1550,600,500,650,1550,900,1300,650,1550,600,1600,600};
+
+//unsigned int inDataR[66] = {4250,650,500,650,500,500,550,600,500,650,500,500,600,550,550,550,550,550,1650,550,1650,600,1600,650,1600,600,1600,600,1600,650,1600,600,1600,600,500,650,1550,600,500,650,1600,500,550,650,500,500,550,600,550,550,1650,550,550,550,1650,600,550,550,1650,800,1400,600,1600,650,1600,650};
+//unsigned int inDataG[66] = {4250,650,500,650,500,500,550,600,500,650,500,500,600,550,550,550,550,550,1650,550,1650,600,1600,650,1600,600,1600,600,1600,650,1600,600,1600,600,500,650,1550,600,500,650,1600,500,550,650,500,500,550,600,550,550,1650,550,550,550,1650,600,550,550,1650,800,1400,600,1600,650,1600,650};
+//unsigned int inDataB[66] = {4250,650,500,650,500,500,550,600,500,650,500,500,600,550,550,550,550,550,1650,550,1650,600,1600,650,1600,600,1600,600,1600,650,1600,600,1600,600,500,650,1550,600,500,650,1600,500,550,650,500,500,550,600,550,550,1650,550,550,550,1650,600,550,550,1650,800,1400,600,1600,650,1600,650};
+ 
+
 void setup(){
   //enable IR signal receiving
   irrecv.enableIRIn();
@@ -32,9 +41,6 @@ void loop()
   while(Serial.available() > 0)
   {
     char inChar = Serial.read();
-    //Serial << "Data coming from RPI: " << inChar << endl;
-    //Serial << "started : " << started << endl;
-    //Serial << "ended : " << ended << endl;
     if(inChar == SOP)
     {
        index = 0;
@@ -47,8 +53,6 @@ void loop()
        ended = true;
        if(record == false && transmit == false)
        {
-         //Serial << "inData[index - 1] : " << inData[index -1] << endl;
-         //Serial << "index : " << index << endl; 
          if(inData[index-1] == 49)        //<1> -> record signal from devices
          { 
            index = 0;
@@ -70,17 +74,22 @@ void loop()
          if(transmit == true)
          {
            //transmitRaw(&results);
-           irsend.sendRaw(inData, index, 38);   
+           if(inData[index-1] == 31)
+           {
+             irsend.sendRaw(inDataR, 66, 38);   
+           }
+           else if(inData[index-1] == 32)
+           {
+             irsend.sendRaw(inDataG, 66, 38);
+           }
+           else if(inData[index-1] == 32)
+           {
+             irsend.sendRaw(inDataB, 66, 38);
+           }
            transmit = false;
          }
          else if(record == true)
          {
-             //if (irrecv.decode(&results)) 
-             //{
-               //prev = millis();
-               //recordSignal();
-               //irrecv.resume();
-             //}
            record = false;  
          }          
       }
@@ -114,43 +123,37 @@ void loop()
   //if an IR signal was received...
   if(irrecv.decode(&results)){
   //print the protocol the IR signal used
-    //switch(results.decode_type){
-    //case UNKNOWN:
-    //  Serial << "UNKNOWN: ";
-    //  break;
-    //case SONY:
-    // Serial << "SONY: ";
-    //  break;
-    //case NEC:
-    //  Serial << "NEC: ";
-    //  break;
-    //case RC5:
-    //  Serial << "RC5: ";
-    //  break;
-    //case RC6:
-    //  Serial << "RC6: ";
-    //  break;
-    //}
-    //Serial << "results.value: " << results.value << endl;
+    switch(results.decode_type){
+    case UNKNOWN:
+      Serial << "UNKNOWN: ";
+      break;
+    case SONY:
+     Serial << "SONY: ";
+      break;
+    case NEC:
+      Serial << "NEC: ";
+      break;
+    case RC5:
+      Serial << "RC5: ";
+      break;
+    case RC6:
+      Serial << "RC6: ";
+      break;
+    }
     //print the decoded hexadecimal number
-    //Serial << "0x" << _HEX(results.value) << endl;
-    //Serial << results.value << endl;
+    Serial << "0x" << _HEX(results.value) << endl;
+    
     dump(&results);
     //restart the receiver
     irrecv.resume();
   }
+  
+  irsend.sendRaw(inDataG, 67, 38);
+  delay(500);
+  irsend.sendRaw(inDataB, 67, 38);
+  delay(500);
+  irsend.sendRaw(inDataR, 67, 38);
 }
-
-//void recordSignal()
-//{
-//    int len = results.rawlen - 1;
-//    
-//    for(int i = 0; i < len; i++)
-//    {
-//      inData[i] = results.rawbuf[i];
-//    } 
-//    printCode (results.rawbuf, results.rawlen);
-//}
 
 void printCode(volatile word* code, byte length){
   for(byte i = 0; i < length; i++){
@@ -168,9 +171,9 @@ void dump(decode_results *results) {
   //Serial.print(results->bits, DEC);
   //Serial.println(" bits)");
   //Serial.print("Raw (");
-  //Serial.print(count, DEC);
-  //Serial.print("): ");
-
+  Serial.print(count, DEC);
+  //Serial.print(" : ");
+  
   for (int i = 0; i < count; i++) {
     if ((i % 2) == 1) {
       Serial.print(results->rawbuf[i]*USECPERTICK, DEC);
@@ -178,7 +181,7 @@ void dump(decode_results *results) {
     else {
       Serial.print(-(int)results->rawbuf[i]*USECPERTICK, DEC);
     }
-    Serial.print(" ");
+    Serial.print(",");
   }
   Serial.println("");
 }  
