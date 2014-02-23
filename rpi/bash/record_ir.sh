@@ -20,7 +20,7 @@ IR_NAME=$1
 IR_FILE="../config/ir_cmd.config"
 IR_CMD=0
 FIND_NAME=0
-COM_PROC="../serial/serial_intf.py"
+COM_PROC="../serial/serial_intf.py record"
 
 echo $IR_NAME
 # call communication processor
