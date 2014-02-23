@@ -2,6 +2,8 @@
 var express = require('express'),
   http = require('http'),
   path = require('path');
+var exec = require('child_process').exec,
+    child;
 
 var app = express();
 
@@ -33,4 +35,16 @@ var io = require('socket.io').listen(server);
 
 io.sockets.on('connection', function (client) {
   console.log('client connected: '+client);
+
+  client.on('record', function (data) {
+    console.log('Executing Command: "rpi/bash/ir_hub.sh record ' + 'data"')
+    child = exec('rpi/bash/ir_hub.sh record ' + data, // command line argument directly in string
+      function (error, stdout, stderr) {      // one easy function to capture data/errors
+        console.log('stdout: ' + stdout);
+        console.log('stderr: ' + stderr);
+        if (error !== null) {
+          console.log('exec error: ' + error);
+        }
+    });
+  });
 });
