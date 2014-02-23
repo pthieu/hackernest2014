@@ -21,19 +21,22 @@ chk_arg $1
 chk_arg $2
 FILE="../config/$1"
 NAME=$2
+COM_PROC="../serial/serial_intf.py send"
 
 # check if file exist
 if [ -e $FILE ];
 then
     echo file found
     # look for name in the file
-    CMD=`grep -w $NAME $FILE`
+    echo $NAME
+    CMD=`grep -w "$NAME:" $FILE | sed s/"$NAME:"//`
     chk_arg $CMD
     echo $CMD
     
     for i in $CMD;
     do
-        echo $i
+        echo Send $i
+        python $COM_PROC $CMD
     done
 else
     echo file found
