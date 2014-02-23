@@ -2,7 +2,7 @@
 var express = require('express'),
   http = require('http'),
   path = require('path');
-var exec = require('child_process').exec,
+var exec = require('child_process').execFile,
     child;
 
 var app = express();
@@ -26,6 +26,9 @@ app.configure('development', function () {
 app.get('/', function (req,res) {
   res.sendfile('public/index.html');
 });
+app.get('/create', function (req,res) {
+  res.sendfile('public/create.html');
+});
 
 var server = http.createServer(app).listen(app.get('port'), function () {
   console.log('Express server listening on port ' + app.get('port'));
@@ -39,7 +42,7 @@ io.sockets.on('connection', function (client) {
   client.on('record', function (data) {
     var cmd = 'rpi/bash/ir_hub.sh record ' + data;
     console.log('Executing Command: '+cmd);
-    child = exec(cmd, // command line argument directly in string
+    child = exec('rpi/bash/ir_hub.sh', ['record', data],// command line argument directly in string
       function (error, stdout, stderr) {      // one easy function to capture data/errors
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
