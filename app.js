@@ -84,4 +84,17 @@ io.sockets.on('connection', function (client) {
       }
     });
   });
+  client.on('runMacro', function (data) {
+    var name = '"'+data+'"';
+    var cmd = 'rpi/bash/ir_hub.sh send ' + name;
+    console.log('Executing Command: '+cmd);
+    child = exec('rpi/bash/ir_hub.sh', ['send', name],// command line argument directly in string
+      function (error, stdout, stderr) {      // one easy function to capture data/errors
+        console.log('stdout: ' + stdout);
+        console.log('stderr: ' + stderr);
+        if (error !== null) {
+          console.log('exec error: ' + error);
+        }
+    });
+  });
 });

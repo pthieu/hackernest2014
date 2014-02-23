@@ -46,7 +46,7 @@
       <div class='col-xs-6'>
         <h2>Create Macro</h2>
         <p>Choose IR signals you want and create a macro to run later.</p>
-        <button type="button" id='create' class="btn btn-info btn-lg">Create</button>
+        <button onclick="window.location='/create'" type="button" id='create' class="btn btn-info btn-lg">Create</button>
       </div>
     </div>
     <div class='margtop row text-center'>
@@ -55,22 +55,15 @@
         <table class='table table-striped'>
           <thead>
             <tr>
-              <th>ID</th>
               <th>Name</th>
-              <th>IR Sequence</th>
+              <th>Description</th>
+              <th></th>
+              <th>Count</th>
               <th></th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>0</td>
-              <td>Turn on</td>
-              <td>#ffffff</td>
-              <td>
-                <button type="button" id='run' class="btn btn-info">Run Macro</button>
-              </td>
-            </tr>
-          </tbody>
+          <tbody class='cmdslist'></tbody>
+        </table>
         </div>
       </div>
     </div>
