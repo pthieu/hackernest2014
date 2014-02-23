@@ -13,6 +13,9 @@ function chk_arg
 
 chk_arg $1
 
+runpath="`pwd`/rpi/bash/"
+echo $runpath;
+
 CMD=$1
 FILE=$2
 NAME=$2
