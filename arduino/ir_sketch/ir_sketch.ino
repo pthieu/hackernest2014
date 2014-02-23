@@ -134,7 +134,7 @@ void loop()
     }
     //Serial << "results.value: " << results.value << endl;
     //print the decoded hexadecimal number
-    Serial << "0x" << _HEX(results.value) << endl;
+    Serial << (results.value) << endl;
     //restart the receiver
     irrecv.resume();
   }
