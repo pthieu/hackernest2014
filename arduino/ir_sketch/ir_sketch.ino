@@ -117,24 +117,24 @@ void loop()
   //print the protocol the IR signal used
     switch(results.decode_type){
     case UNKNOWN:
-      Serial << "UNKNOWN: ";
+      //Serial << "UNKNOWN: ";
       break;
     case SONY:
-      Serial << "SONY: ";
+      //Serial << "SONY: ";
       break;
     case NEC:
-      Serial << "NEC: ";
+      //Serial << "NEC: ";
       break;
     case RC5:
-      Serial << "RC5: ";
+      //Serial << "RC5: ";
       break;
     case RC6:
-      Serial << "RC6: ";
+      //Serial << "RC6: ";
       break;
     }
     //Serial << "results.value: " << results.value << endl;
     //print the decoded hexadecimal number
-    Serial << (results.value) << endl;
+    Serial << _HEX(results.value) << endl;
     //restart the receiver
     irrecv.resume();
   }
