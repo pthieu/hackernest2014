@@ -38,7 +38,7 @@ then
         # replace $IR_NAME line
         sed -i "s/^$IR_NAME.*/$IR_NAME $IR_CMD/" "$IR_FILE"
     else
-        echo "$IR_NAME $IR_CMD" >> $IR_FILE
+        echo "$IR_NAME: $IR_CMD" >> $IR_FILE
     fi
 else
     # create the file and write the first command
