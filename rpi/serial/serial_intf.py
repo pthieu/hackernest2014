@@ -16,8 +16,8 @@ port = serial.Serial("/dev/ttyAMA0", baudrate=9600, timeout=3.0)
 
 numArguments = len(sys.argv)
 
-if numArguments == 0:
-	#print "Invalid arguments\n"
+if numArguments <= 1:
+	print "Invalid arguments\n"
 	sys.exit(1)
 else:
 	action = str(sys.argv[1])
