@@ -4,7 +4,16 @@ var express = require('express'),
   path = require('path');
 var exec = require('child_process').execFile,
     child;
+var execCLI = require('child_process').exec;
 var fs = require('fs');
+
+child = execCLI('touch rpi/config/ir_cmd.config', function (err, stdout, stderr) {
+    console.log('stdout: ' + stdout);
+    console.log('stderr: ' + stderr);
+    if (err !== null) {
+      console.log('exec error: ' + error);
+    }
+});
 
 var app = express();
 

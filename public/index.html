@@ -16,11 +16,11 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">Team QC</a>
+        <a class="navbar-brand" href="/">Team QC</a>
       </div>
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Home</a></li>
+          <li class="active"><a href="/">Home</a></li>
           <li><a href="/create">Create</a></li>
         </ul>
       </div><!--/.nav-collapse -->
@@ -39,14 +39,14 @@
         <p>Record your IR and create a sequence of IR signals in a macro later.</p>
         <label for="inputRecord" class="col-sm-5 control-label">IR Name</label>
         <div class="col-sm-7">
-          <input class="form-control" id="inputRecord" placeholder="i.e. Macro 1">
+          <input class="form-control" id="inputRecord" placeholder="i.e. TV On">
         </div>
-        <button type="button" id='record' class="btn btn-info btn-lg">Record</button>
+        <button type="button" id='record' class="btn btn-info btn-lg btn-margtop">Record</button>
       </div>
       <div class='col-xs-6'>
         <h2>Create Macro</h2>
         <p>Choose IR signals you want and create a macro to run later.</p>
-        <button onclick="window.location='/create'" type="button" id='create' class="btn btn-info btn-lg">Create</button>
+        <button onclick="window.location='/create'" type="button" id='create' class="btn btn-info btn-lg btn-margtop">Create</button>
       </div>
     </div>
     <div class='margtop row text-center'>
@@ -71,6 +71,7 @@
   </div><!-- /.container -->
   <script src="/socket.io/socket.io.js"></script>
   <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
   <script src="/js/landing.js"></script>
 </body>
 </html>
