@@ -17,19 +17,19 @@ runpath="`pwd`/rpi/bash"
 echo $runpath;
 
 CMD=$1
-FILE=$2
 NAME=$2
 case $CMD in
     send )
         echo send
         # kick off bash
+        $runpath/ir_send.sh "$NAME"
         ;;
     record )
         echo record
         # kick off bash
         chk_arg $NAME
         # echo $NAME
-        $runpath/record_ir.sh $NAME
+        $runpath/ir_record.sh "$NAME"
         ;;
     macro )
         ;;
