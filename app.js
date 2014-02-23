@@ -37,7 +37,7 @@ io.sockets.on('connection', function (client) {
   console.log('client connected: '+client);
 
   client.on('record', function (data) {
-    child = exec('pwd', // command line argument directly in string
+    child = exec('rpi/bash/ir_hub.sh record ' + data, // command line argument directly in string
       function (error, stdout, stderr) {      // one easy function to capture data/errors
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
