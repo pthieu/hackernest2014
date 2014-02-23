@@ -4,7 +4,17 @@ var express = require('express'),
   path = require('path');
 var exec = require('child_process').execFile,
     child;
+var execCLI = require('child_process').exec;
 var fs = require('fs');
+var endOfLine = require('os').EOL;
+
+child = execCLI('touch rpi/config/macro.config', function (err, stdout, stderr) {
+    console.log('stdout: ' + stdout);
+    console.log('stderr: ' + stderr);
+    if (err !== null) {
+      console.log('exec error: ' + error);
+    }
+});
 
 var app = express();
 
@@ -53,11 +63,11 @@ io.sockets.on('connection', function (client) {
     });
   });
   client.on('getIRCodes', function () {
-    fs.readFile('rpi/config/ir_cmd.config', 'utf8', function (err, data) {
+    fs.readFile('rpi/config/macro.config', 'utf8', function (err, data) {
       if (err) {
         return console.error(err);
       }
-      var arr = data.split('\r\n');
+      var arr = data.split(endOfLine);
       for(var i=0; i<arr.length;i++){
         var macro = arr[i].split('::');
         if(macro.length>1){
@@ -76,12 +86,25 @@ io.sockets.on('connection', function (client) {
         entries += " "+data.data[i][2];
       }
     }
-    entries += "::0\r\n";
+    entries += "::0"+endOfLine;
     console.log('Appending: '+entries);
-    fs.appendFile('rpi/config/ir_cmd.config', entries, function (err) {
+    fs.appendFile('rpi/config/macro.config', entries, function (err) {
       if (err) {
         return console.error(err);
       }
+    });
+  });
+  client.on('runMacro', function (data) {
+    var name = data;
+    var cmd = 'rpi/bash/ir_hub.sh send ' + name;
+    console.log('Executing Command: '+cmd);
+    child = exec('rpi/bash/ir_hub.sh', ['send', name],// command line argument directly in string
+      function (error, stdout, stderr) {      // one easy function to capture data/errors
+        console.log('stdout: ' + stdout);
+        console.log('stderr: ' + stderr);
+        if (error !== null) {
+          console.log('exec error: ' + error);
+        }
     });
   });
 });
