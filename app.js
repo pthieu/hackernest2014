@@ -8,7 +8,7 @@ var execCLI = require('child_process').exec;
 var fs = require('fs');
 var endOfLine = require('os').EOL;
 
-child = execCLI('touch rpi/config/ir_cmd.config', function (err, stdout, stderr) {
+child = execCLI('touch rpi/config/macro.config', function (err, stdout, stderr) {
     console.log('stdout: ' + stdout);
     console.log('stderr: ' + stderr);
     if (err !== null) {
