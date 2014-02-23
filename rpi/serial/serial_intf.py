@@ -11,7 +11,7 @@ def readline(port):
         if ch=='\r' or ch=='':
             return rv
 
-port = serial.Serial("/dev/ttyAMA0", baudrate=9600, timeout=3.0)
+port = serial.Serial("/dev/ttyACM0", baudrate=9600, timeout=3.0)
 #port = serial.Serial("/dev/tty.usbmodemfa131", baudrate=9600, timeout=3.0)
 
 numArguments = len(sys.argv)
