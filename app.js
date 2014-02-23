@@ -4,6 +4,7 @@ var express = require('express'),
   path = require('path');
 var exec = require('child_process').execFile,
     child;
+var fs = require('fs');
 
 var app = express();
 
@@ -49,6 +50,38 @@ io.sockets.on('connection', function (client) {
         if (error !== null) {
           console.log('exec error: ' + error);
         }
+    });
+  });
+  client.on('getIRCodes', function () {
+    fs.readFile('rpi/config/ir_cmd.config', 'utf8', function (err, data) {
+      if (err) {
+        return console.error(err);
+      }
+      var arr = data.split('\r\n');
+      for(var i=0; i<arr.length;i++){
+        var macro = arr[i].split('::');
+        if(macro.length>1){
+          client.emit('setIRCodes', macro);
+        }
+        console.log(macro);
+      }
+    });
+  });
+  client.on('saveMacro', function (data) {
+    console.log('test');
+    console.log(data);
+    var entries = data.name+"::"+data.desc+"::";
+    for(var i=0; i<data.data.length; i++){
+      if(data.data.length>0){
+        entries += " "+data.data[i][2];
+      }
+    }
+    entries += "::0\r\n";
+    console.log('Appending: '+entries);
+    fs.appendFile('rpi/config/ir_cmd.config', entries, function (err) {
+      if (err) {
+        return console.error(err);
+      }
     });
   });
 });
