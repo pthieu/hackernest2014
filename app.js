@@ -63,7 +63,7 @@ io.sockets.on('connection', function (client) {
     });
   });
   client.on('getIRCodes', function () {
-    fs.readFile('rpi/config/ir_cmd.config', 'utf8', function (err, data) {
+    fs.readFile('rpi/config/macro.config', 'utf8', function (err, data) {
       if (err) {
         return console.error(err);
       }
@@ -88,7 +88,7 @@ io.sockets.on('connection', function (client) {
     }
     entries += "::0"+endOfLine;
     console.log('Appending: '+entries);
-    fs.appendFile('rpi/config/ir_cmd.config', entries, function (err) {
+    fs.appendFile('rpi/config/macro.config', entries, function (err) {
       if (err) {
         return console.error(err);
       }
